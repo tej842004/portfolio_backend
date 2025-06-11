@@ -11,11 +11,7 @@ const mail = require("./routes/mail");
 
 const express = require("express");
 const app = express();
-app.use(
-  cors({
-    origin: "https://blog-frontend-ten-tawny.vercel.app/",
-  })
-);
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Hello from Render!");
