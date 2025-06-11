@@ -1,0 +1,29 @@
+# Node modules (should always be ignored)
+node_modules/
+
+# Environment variables (keep secrets out of version control)
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS-specific files
+.DS_Store       # macOS
+Thumbs.db       # Windows
+
+# Optional: ignore test coverage outputs
+coverage/
+
+# Optional: ignore build files if you compile code (e.g., TypeScript or Babel)
+dist/
+build/
+
+# Optional: ignore local editor config
+.vscode/
+.idea/
+
+# Optional: system-specific
+*.swp
+*.swo

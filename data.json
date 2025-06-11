@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Personal Portfolio Website",
+    "description": "A responsive and visually appealing website to showcase my projects and resume.",
+    "techstack": ["React", "Chakra UI", "TypeScript"],
+    "website": "https://prashantportfolio.dev",
+    "github": "https://github.com/prashantchauhan/portfolio"
+  },
+  {
+    "title": "Task Management App",
+    "description": "A full-stack app to manage daily tasks with deadlines, priorities, and tags.",
+    "techstack": ["MongoDB", "Express", "React", "Node.js"],
+    "website": "https://taskmanagerapp.dev",
+    "github": "https://github.com/prashantchauhan/task-manager"
+  },
+  {
+    "title": "Weather Forecast App",
+    "description": "An app that shows real-time weather data using OpenWeatherMap API.",
+    "techstack": ["React", "Tailwind CSS", "API Integration"],
+    "website": "https://weatherapp.live",
+    "github": "https://github.com/prashantchauhan/weather-app"
+  },
+  {
+    "title": "E-commerce Store",
+    "description": "A MERN stack-based e-commerce website with user authentication and payment gateway.",
+    "techstack": ["MongoDB", "Express", "React", "Node.js", "Stripe API"],
+    "website": "https://myecommercestore.com",
+    "github": "https://github.com/prashantchauhan/ecommerce-store"
+  },
+  {
+    "title": "Blog Platform",
+    "description": "A full-stack blog platform with markdown support and content moderation.",
+    "techstack": ["Next.js", "MongoDB", "Tailwind CSS"],
+    "website": "https://blogwithprashant.com",
+    "github": "https://github.com/prashantchauhan/blog-platform"
+  },
+  {
+    "title": "Real-time Chat App",
+    "description": "A real-time chat application using Socket.io and JWT-based authentication.",
+    "techstack": ["Node.js", "Express", "Socket.io", "React"],
+    "website": "https://livechatprashant.com",
+    "github": "https://github.com/prashantchauhan/chat-app"
+  }
+]
