@@ -67,7 +67,10 @@ router.post("/", auth, async (req, res) => {
     res.status(201).send(comment);
   } catch (err) {
     console.error("Error creating comment:", err);
-    res.status(500).send("Something went wrong.");
+    res.status(500).send({
+      meta: { message: "Something went wrong." },
+      error: err.message,
+    });
   }
 });
 
