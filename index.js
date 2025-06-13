@@ -8,6 +8,7 @@ const genres = require("./routes/genres");
 const image = require("./routes/image");
 const projects = require("./routes/projects");
 const mail = require("./routes/mail");
+const comments = require("./routes/comments");
 
 const express = require("express");
 const app = express();
@@ -30,6 +31,7 @@ app.use("/api/auth", auth);
 app.use("/api/users", users);
 app.use("/api/projects", projects);
 app.use("/api/contact", mail);
+app.use("/api/comments", comments);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

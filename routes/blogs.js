@@ -104,7 +104,7 @@ router.put("/:id", async (req, res) => {
     {
       title: req.body.title,
       content: req.body.content,
-      author: req.body.author,
+      user: req.body.author,
       genre: req.body.genre,
       tags: req.body.tags,
       image: req.body.image,
@@ -123,7 +123,7 @@ router.delete("/:id", auth, async (req, res) => {
     return res.status(400).send("Invalid blog ID.");
 
   const blog = await Blog.findById(req.params.id);
-  if (blog.author._id.toString() !== req.user._id)
+  if (blog.user._id.toString() !== req.user._id)
     return res
       .status(400)
       .send("You don't have permission to delete this blog.");
