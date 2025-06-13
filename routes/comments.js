@@ -45,7 +45,7 @@ router.post("/:id", auth, async (req, res) => {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(400).send("Invalid user.");
 
-    const blog = await Blog.findById(req.body.id);
+    const blog = await Blog.findById(req.params.id);
     if (!blog) return res.status(400).send("Blog is required.");
 
     const comment = new Comment({
