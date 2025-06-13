@@ -15,7 +15,8 @@ router.get("/", async (req, res) => {
     const comments = await Comment.find()
       .sort("-createdAt")
       .skip(offset)
-      .limit(limit);
+      .limit(limit)
+      .lean();
 
     res.send({
       data: comments,
@@ -41,7 +42,7 @@ router.post("/", auth, async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const user = await User.findById(req.body.userId);
+    const user = await User.findById(req.user._id);
     if (!user) return res.status(400).send("Invalid user.");
 
     const blog = await Blog.findById(req.body.blogId);
@@ -75,7 +76,7 @@ router.put("/:id", auth, async (req, res) => {
     return res.status(400).send("Invalid blog ID.");
 
   let comment = await Comment.findById(req.params.id);
-  if (comment.user._id !== req.user._id)
+  if (!comment.user._id.equals(req.user._id))
     return res
       .status(400)
       .send("You don't have permission to delete this comment.");
@@ -83,9 +84,13 @@ router.put("/:id", auth, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  comment = await Comment.findByIdAndUpdate(comment._id, {
-    comment: req.body.comment,
-  });
+  comment = await Comment.findByIdAndUpdate(
+    comment._id,
+    {
+      comment: req.body.comment,
+    },
+    { new: true }
+  );
 
   if (!comment) return res.status(404).send("Comment not found.");
 
@@ -97,7 +102,7 @@ router.delete("/:id", auth, async (req, res) => {
     return res.status(400).send("Invalid blog ID.");
 
   const comment = await Comment.findById(req.params.id);
-  if (comment.user._id.toString() !== req.user._id)
+  if (!comment.user._id.equals(req.user._id))
     return res
       .status(400)
       .send("You don't have permission to delete this comment.");
