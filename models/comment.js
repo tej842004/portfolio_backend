@@ -40,11 +40,6 @@ const commentSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 50,
       },
-      content: {
-        type: String,
-        required: true,
-        minlength: 5,
-      },
     }),
     required: true,
   },
