@@ -37,7 +37,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", auth, async (req, res) => {
+router.post("/:id", auth, async (req, res) => {
   try {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -45,7 +45,7 @@ router.post("/", auth, async (req, res) => {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(400).send("Invalid user.");
 
-    const blog = await Blog.findById(req.body.blogId);
+    const blog = await Blog.findById(req.body.id);
     if (!blog) return res.status(400).send("Blog is required.");
 
     const comment = new Comment({
@@ -75,45 +75,55 @@ router.post("/", auth, async (req, res) => {
 });
 
 router.put("/:id", auth, async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return res.status(400).send("Invalid blog ID.");
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(400).send("Invalid blog ID.");
 
-  let comment = await Comment.findById(req.params.id);
-  if (!comment.user._id.equals(req.user._id))
-    return res
-      .status(400)
-      .send("You don't have permission to delete this comment.");
+    let comment = await Comment.findById(req.params.id);
+    if (!comment) return res.status(404).send("Comment not found.");
 
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+    if (!comment.user._id.equals(req.user._id))
+      return res
+        .status(400)
+        .send("You don't have permission to delete this comment.");
 
-  comment = await Comment.findByIdAndUpdate(
-    comment._id,
-    {
-      comment: req.body.comment,
-    },
-    { new: true }
-  );
+    const { error } = validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
-  if (!comment) return res.status(404).send("Comment not found.");
+    comment.comment = req.body.comment;
 
-  res.send(comment);
+    res.send(comment);
+  } catch (err) {
+    console.error("Error updating comment:", err);
+    res.status(500).send({
+      meta: { message: "Something went wrong." },
+      error: err.message,
+    });
+  }
 });
 
 router.delete("/:id", auth, async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return res.status(400).send("Invalid blog ID.");
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(400).send("Invalid blog ID.");
 
-  const comment = await Comment.findById(req.params.id);
-  if (!comment.user._id.equals(req.user._id))
-    return res
-      .status(400)
-      .send("You don't have permission to delete this comment.");
+    const comment = await Comment.findById(req.params.id);
+    if (!comment.user._id.equals(req.user._id))
+      return res
+        .status(400)
+        .send("You don't have permission to delete this comment.");
 
-  const deleteComment = await Comment.findByIdAndDelete(req.params.id);
-  if (!deleteComment) return res.status(404).send("Comment not found.");
+    const deleteComment = await Comment.findByIdAndDelete(req.params.id);
+    if (!deleteComment) return res.status(404).send("Comment not found.");
 
-  res.send(comment);
+    res.send(comment);
+  } catch (err) {
+    console.error("Error deleting comment:", err);
+    res.status(500).send({
+      meta: { message: "Something went wrong." },
+      error: err.message,
+    });
+  }
 });
 
 module.exports = router;
