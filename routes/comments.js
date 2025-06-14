@@ -6,13 +6,15 @@ const auth = require("../middleware/auth");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const offset = parseInt(req.query.offset) || 0;
     const limit = parseInt(req.query.limit) || 10;
+    const blogId = req.params.id;
 
-    const total_count = await Comment.countDocuments();
-    const comments = await Comment.find()
+    const total_count = await Comment.countDocuments({ "blog._id": blogId });
+
+    const comments = await Comment.find({ "blog._id": blogId })
       .sort("-createdAt")
       .skip(offset)
       .limit(limit)
@@ -85,12 +87,14 @@ router.put("/:id", auth, async (req, res) => {
     if (!comment.user._id.equals(req.user._id))
       return res
         .status(400)
-        .send("You don't have permission to delete this comment.");
+        .send("You don't have permission to edit this comment.");
 
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     comment.comment = req.body.comment;
+
+    comment.save();
 
     res.send(comment);
   } catch (err) {

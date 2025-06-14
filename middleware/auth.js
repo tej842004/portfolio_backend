@@ -6,7 +6,6 @@ function auth(req, res, next) {
 
   try {
     const decode = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
-    console.log(decode);
     req.user = decode;
     next();
   } catch (error) {
