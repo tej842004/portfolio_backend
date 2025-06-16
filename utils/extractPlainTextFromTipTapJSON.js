@@ -1,4 +1,4 @@
-const extractPlainTextFromTipTapJSON = () => {
+const extractPlainTextFromTipTapJSON = (content) => {
   let text = "";
 
   function traverse(node) {

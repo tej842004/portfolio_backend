@@ -66,7 +66,7 @@ router.post("/", async (req, res) => {
     const blog = new Blog({
       title: req.body.title,
       content: req.body.content,
-      author: {
+      user: {
         _id: author._id,
         name: author.name,
         email: author.email,
