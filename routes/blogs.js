@@ -53,15 +53,7 @@ router.post("/", async (req, res) => {
     const genre = await Genre.findById(req.body.genreId);
     if (!genre) return res.status(400).send("Genre is required.");
 
-    let readTime = 1;
-    try {
-      const plainText = extractPlainTextFromTipTapJSON(req.body.content);
-      const wordsPerMinute = 200;
-      const wordCount = plainText.trim().split(/\s+/).length;
-      readTime = Math.ceil(wordCount / wordsPerMinute);
-    } catch (err) {
-      console.warn("Could not calculate read time:", err);
-    }
+    const readTime = calculateReadTime(req.body.content);
 
     const blog = new Blog({
       title: req.body.title,
@@ -99,15 +91,33 @@ router.put("/:id", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
+  const author = await User.findById(req.body.author);
+  if (!author) return res.status(400).send("Invalid Author.");
+
+  const genre = await Genre.findById(req.body.genreId);
+  if (!genre) return res.status(400).send("Genre is required.");
+
+  const readTime = calculateReadTime(req.body.content);
+
   const blog = await Blog.findByIdAndUpdate(
     req.params.id,
     {
       title: req.body.title,
       content: req.body.content,
-      user: req.body.author,
-      genre: req.body.genre,
+      user: {
+        _id: author._id,
+        name: author.name,
+        email: author.email,
+      },
+      genre: {
+        _id: genre._id,
+        title: genre.title,
+      },
       tags: req.body.tags,
-      image: req.body.image,
+      imageUrl: req.body.imageUrl,
+      imagePublicId: req.body.imagePublicId,
+      readTime,
+      createdAt: new Date(),
     },
     { new: true }
   );
@@ -147,3 +157,16 @@ router.get("/:id", async (req, res) => {
 });
 
 module.exports = router;
+
+const calculateReadTime = (content) => {
+  let readTime = 1;
+  try {
+    const plainText = extractPlainTextFromTipTapJSON(content);
+    const wordsPerMinute = 200;
+    const wordCount = plainText.trim().split(/\s+/).length;
+    readTime = Math.ceil(wordCount / wordsPerMinute);
+  } catch (err) {
+    console.warn("Could not calculate read time:", err);
+  }
+  return readTime;
+};
