@@ -50,7 +50,7 @@ router.post("/", async (req, res) => {
     const author = await User.findById(req.body.author);
     if (!author) return res.status(400).send("Invalid Author.");
 
-    const genre = await Genre.findById(req.body.genreId);
+    const genre = await Genre.findById(req.body.genre);
     if (!genre) return res.status(400).send("Genre is required.");
 
     const readTime = calculateReadTime(req.body.content);
@@ -94,7 +94,7 @@ router.put("/:id", async (req, res) => {
   const author = await User.findById(req.body.author);
   if (!author) return res.status(400).send("Invalid Author.");
 
-  const genre = await Genre.findById(req.body.genreId);
+  const genre = await Genre.findById(req.body.genre);
   if (!genre) return res.status(400).send("Genre is required.");
 
   const readTime = calculateReadTime(req.body.content);

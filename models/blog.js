@@ -70,7 +70,7 @@ function validateBlog(blog) {
     content: Joi.object().required().label("Content"),
     tags: Joi.array().items(Joi.string()).min(1).required().label("Tags"),
     author: Joi.string().hex().length(24).required().label("Author"),
-    genreId: Joi.string().hex().length(24).required().label("Genre"),
+    genre: Joi.string().hex().length(24).required().label("Genre"),
     imageUrl: Joi.string().required().label("Image"),
     imagePublicId: Joi.string().required().label("Image Public Id"),
   });
