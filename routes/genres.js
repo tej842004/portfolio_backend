@@ -3,12 +3,6 @@ const router = express.Router();
 const { Genre, validate } = require("../models/genre");
 const slugify = require("slugify");
 
-// GET all genres
-// router.get("/", async (req, res) => {
-//   const genres = await Genre.find().sort("title");
-//   res.send(genres);
-// });
-
 // GET all genres with pagination and structured response
 router.get("/", async (req, res) => {
   const offset = parseInt(req.query.offset) || 0;
