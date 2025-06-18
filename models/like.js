@@ -26,4 +26,4 @@ const likeSchema = new mongoose.Schema({
 const Like = mongoose.model("Like", likeSchema);
 
 exports.Like = Like;
-exports.validate = validateLike;
+
