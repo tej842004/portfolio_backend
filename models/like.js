@@ -9,13 +9,13 @@ const likeSchema = new mongoose.Schema({
         required: true,
       },
       name: {
-        type: string,
+        type: String,
         minlength: 5,
         maxlength: 255,
         required: true,
       },
       email: {
-        type: string,
+        type: String,
         minlength: 5,
         maxlength: 255,
         required: true,
