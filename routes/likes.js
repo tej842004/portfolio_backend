@@ -1,12 +1,9 @@
 const auth = require("../middleware/auth");
-const { Like, validate } = require("../models/like");
+const { Like } = require("../models/like");
 const express = require("express");
 const router = express.Router();
 
 router.post("/", auth, (req, res) => {
-  const { error } = validate(req.user);
-  if (error) return res.status(400).send(error.details[0].message);
-
   const like = new Like({
     user: {
       _id: req.user._id,

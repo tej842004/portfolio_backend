@@ -1,4 +1,3 @@
-const Joi = require("joi");
 const mongoose = require("mongoose");
 
 const likeSchema = new mongoose.Schema({
@@ -25,14 +24,6 @@ const likeSchema = new mongoose.Schema({
 });
 
 const Like = mongoose.model("Like", likeSchema);
-
-const validateLike = (like) => {
-  const schema = Joi.object({
-    user: Joi.string().hex().length(24).required().label("user"),
-  });
-
-  return schema.validate(like);
-};
 
 exports.Like = Like;
 exports.validate = validateLike;
