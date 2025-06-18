@@ -5,6 +5,7 @@ const { Blog, validate } = require("../models/blog");
 const auth = require("../middleware/auth");
 const { User } = require("../models/user");
 const { Genre } = require("../models/genre");
+const { Comment } = require("../models/comment");
 const {
   extractPlainTextFromTipTapJSON,
 } = require("../utils/extractPlainTextFromTipTapJSON");
@@ -137,6 +138,8 @@ router.delete("/:id", auth, async (req, res) => {
     return res
       .status(400)
       .send("You don't have permission to delete this blog.");
+
+  await Comment.deleteMany({ "blog._id": blog._id });
 
   const deleteBlog = await Blog.findByIdAndDelete(req.params.id);
   if (!deleteBlog) return res.status(404).send("Blog not found.");
