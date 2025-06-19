@@ -75,10 +75,7 @@ router.post("/", auth, async (req, res) => {
 
 // DELETE /api/likes
 router.delete("/:id", auth, async (req, res) => {
-  const { error } = validate(req.params.id);
-  if (error) return res.status(400).send(error.details[0].message);
-
-  const blog = await Blog.findById(req.body.blog);
+  const blog = await Blog.findById(req.params.id);
   if (!blog) return res.status(400).send("Blog not found.");
 
   const user = await User.findById(req.user._id);
