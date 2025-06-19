@@ -41,10 +41,10 @@ router.post("/", auth, async (req, res) => {
 
   try {
     const blog = await Blog.findById(req.body.blog);
-    if (!blog) return res.status(400).send("Blog is required.");
+    if (!blog) return res.status(400).send("Blog not found.");
 
     const user = await User.findById(req.user._id);
-    if (!user) return res.status(400).send("User is required.");
+    if (!user) return res.status(400).send("User not found.");
 
     const existingLike = await Like.findOne({
       "user._id": user._id,
@@ -79,10 +79,10 @@ router.delete("/:id", auth, async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const blog = await Blog.findById(req.body.blog);
-  if (!blog) return res.status(400).send("Blog is required.");
+  if (!blog) return res.status(400).send("Blog not found.");
 
   const user = await User.findById(req.user._id);
-  if (!user) return res.status(400).send("User is required.");
+  if (!user) return res.status(400).send("User not found.");
 
   try {
     const like = await Like.findOneAndDelete({
