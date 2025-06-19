@@ -1,3 +1,4 @@
+const Joi = require("joi");
 const mongoose = require("mongoose");
 
 const likeSchema = new mongoose.Schema(
@@ -46,4 +47,13 @@ likeSchema.index({ user: 1, blog: 1 }, { unique: true });
 
 const Like = mongoose.model("Like", likeSchema);
 
+const validateLike = (like) => {
+  const schema = Joi.object({
+    blog: Joi.string().hex().length(24).required().label("Blog"),
+  });
+
+  return schema.validate(like);
+};
+
 exports.Like = Like;
+exports.validate = validateLike;
