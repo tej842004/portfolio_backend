@@ -6,9 +6,7 @@ const auth = require("../middleware/auth");
 const { User } = require("../models/user");
 const { Genre } = require("../models/genre");
 const { Comment } = require("../models/comment");
-const {
-  extractPlainTextFromTipTapJSON,
-} = require("../utils/extractPlainTextFromTipTapJSON");
+const { calculateReadTime } = require("../utils/calculateReadTime");
 
 // GET all blogs
 router.get("/", async (req, res) => {
@@ -160,16 +158,3 @@ router.get("/:id", async (req, res) => {
 });
 
 module.exports = router;
-
-const calculateReadTime = (content) => {
-  let readTime = 1;
-  try {
-    const plainText = extractPlainTextFromTipTapJSON(content);
-    const wordsPerMinute = 200;
-    const wordCount = plainText.trim().split(/\s+/).length;
-    readTime = Math.ceil(wordCount / wordsPerMinute);
-  } catch (err) {
-    console.warn("Could not calculate read time:", err);
-  }
-  return readTime;
-};
