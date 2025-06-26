@@ -10,6 +10,7 @@ const projects = require("./routes/projects");
 const mail = require("./routes/mail");
 const comments = require("./routes/comments");
 const likes = require("./routes/likes");
+const visitors = require("./routes/visitors");
 
 const express = require("express");
 const app = express();
@@ -34,6 +35,7 @@ app.use("/api/projects", projects);
 app.use("/api/contact", mail);
 app.use("/api/comments", comments);
 app.use("/api/likes", likes);
+app.use("/api/user-visit", visitors);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
