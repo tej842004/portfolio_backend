@@ -1,3 +1,4 @@
+const nodemailer = require("nodemailer");
 const express = require("express");
 const router = express.Router();
 
@@ -6,7 +7,7 @@ router.post("/", async (req, res) => {
   const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
   const transporter = nodemailer.createTransport({
-    service: "Gmail",
+    service: "gmail",
     auth: {
       user: "imtej08@gmail.com",
       pass: "tusl nxqw hoxj wmsg",
