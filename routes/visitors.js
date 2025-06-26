@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
   const mailOptions = {
     from: "imtej08@gmail.com",
     to: "imtej08@gmail.com",
-    subject: "🚨 New Website Visit",
+    subject: "Website Visit👀",
     text: `User "${visitorName}" with ID ${visitorId} just visited your site at ${new Date().toLocaleString()}. IP: ${ip}`,
   };
 
